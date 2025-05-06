@@ -2,6 +2,7 @@ package com.product.service.serviceimpl;
 
 import com.product.dto.ResponseProduct;
 import com.product.dto.ResquestProdut;
+import com.product.mapper.ProductMapper;
 import com.product.model.Product;
 import com.product.repository.ProductRepository;
 import com.product.service.ProductService;
@@ -16,6 +17,7 @@ import java.util.List;
 @Slf4j
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
     @Override
     public void addProduct(ResquestProdut resquestProdut) {
         Product product = Product.builder()
@@ -30,15 +32,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ResponseProduct> getAllProduct() {
         List<Product> product=productRepository.findAll();
-        return product.stream().map(this::mapToResponseProduct).toList();
+        return product.stream().map(productMapper::mapToResponseProduct).toList();
     }
 
-    private ResponseProduct mapToResponseProduct(Product product) {
-        return    ResponseProduct.builder()
-                .productId(product.getProductId())
-                .productName(product.getProductName())
-                .productPrice(product.getProductPrice())
-                .productQuantity(product.getProductQuantity())
-                .build();
-    }
+
 }
