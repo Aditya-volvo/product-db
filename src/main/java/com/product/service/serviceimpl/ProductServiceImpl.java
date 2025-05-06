@@ -9,6 +9,7 @@ import com.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -33,6 +34,18 @@ public class ProductServiceImpl implements ProductService {
     public List<ResponseProduct> getAllProduct() {
         List<Product> product=productRepository.findAll();
         return product.stream().map(productMapper::mapToResponseProduct).toList();
+    }
+
+    @Override
+    public ResponseProduct getProductById(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        return productMapper.mapToResponseProduct(product);
+    }
+
+    @Override
+    public void deleteProductById(Long productId) {
+        productRepository.deleteById(productId);
+        log.info("Product {} is deleted",productId);
     }
 
 

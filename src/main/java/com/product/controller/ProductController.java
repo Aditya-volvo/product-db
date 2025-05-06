@@ -27,4 +27,16 @@ public class ProductController {
         return productService.getAllProduct();
     }
 
+    @GetMapping("/{productId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseProduct getProductById(@PathVariable Long productId){
+        return productService.getProductById(productId);
+    }
+
+    @DeleteMapping("/{productId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteProductById(@PathVariable Long productId){
+        return productService.deleteProductById(productId);
+    }
+
 }

@@ -9,4 +9,8 @@ public interface ProductService {
     void addProduct(ResquestProdut resquestProdut);
 
     List<ResponseProduct> getAllProduct();
+
+    ResponseProduct getProductById(Long productId);
+
+    void deleteProductById(Long productId);
 }
