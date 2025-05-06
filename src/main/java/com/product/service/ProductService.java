@@ -13,4 +13,6 @@ public interface ProductService {
     ResponseProduct getProductById(Long productId);
 
     void deleteProductById(Long productId);
+
+    ResponseProduct updateProductById(Long productId, ResquestProdut resquestProdut);
 }

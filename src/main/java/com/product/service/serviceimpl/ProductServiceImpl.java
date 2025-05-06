@@ -10,7 +10,6 @@ import com.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -48,6 +47,18 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(productId).orElseThrow(()->new IdNotFoundException("Product Id"+productId+"not present"));
         productRepository.delete(product);
         log.info("Product {} is deleted",productId);
+    }
+
+    @Override
+    public ResponseProduct updateProductById(Long productId, ResquestProdut resquestProdut) {
+        Product product = productRepository.findById(productId).orElseThrow(()->new IdNotFoundException("Product id"+productId+" not found"));
+        product.setProductName(resquestProdut.getProductName());
+        product.setProductPrice(resquestProdut.getProductPrice());
+        product.setProductQuantity(resquestProdut.getProductQuantity());
+
+        productRepository.save(product);
+
+        return productMapper.mapToResponseProduct(product);
     }
 
 
