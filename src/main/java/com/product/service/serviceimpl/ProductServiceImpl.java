@@ -2,6 +2,7 @@ package com.product.service.serviceimpl;
 
 import com.product.dto.ResponseProduct;
 import com.product.dto.ResquestProdut;
+import com.product.exception.IdNotFoundException;
 import com.product.mapper.ProductMapper;
 import com.product.model.Product;
 import com.product.repository.ProductRepository;
@@ -38,13 +39,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseProduct getProductById(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow();
+        Product product = productRepository.findById(productId).orElseThrow(()->new IdNotFoundException("Product id"+productId+" not found"));
         return productMapper.mapToResponseProduct(product);
     }
 
     @Override
     public void deleteProductById(Long productId) {
-        productRepository.deleteById(productId);
+        Product product = productRepository.findById(productId).orElseThrow(()->new IdNotFoundException("Product Id"+productId+"not present"));
+        productRepository.delete(product);
         log.info("Product {} is deleted",productId);
     }
 
